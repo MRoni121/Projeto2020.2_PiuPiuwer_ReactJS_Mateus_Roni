@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import LogoImg from '../../Imagens/Logo.svg';
-import axios from 'axios';
+import AuthContext from '../../hooks/useAuth';
 
 import {
   MainContainer,
@@ -11,34 +11,30 @@ import {
 } from './styles';
 
 
-
 const Landing: React.FC = () => {
-  
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  
+
+  const {cred} = useContext(AuthContext);
+  const {setCred} = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
+  const {usernameError} = useContext(AuthContext);
+  const {passwordError} = useContext(AuthContext);
+  const {loginError} = useContext(AuthContext);
 
   /*recebe como parametros função a ser executada/array de dependências*/
-  const handleClick = useCallback(async () => {
-    const response = await axios({
-      url: 'http://piupiuwer.polijr.com.br/login/',
-      method: 'POST',
-      data: {
-        username: username,
-        password: password
-      }
+  const handleClick = useCallback(() => {
+    login(cred);
 
-      /*talvez criar um useContext aqui para armazenar o token*/
+ 
+  }, [cred, login]);
 
-    });
-    /* não sei se rola dar um return response.data.token;*/
-  }, [username, password])
-  
+
+
   return (
     <MainContainer >
 
       <LandingText>
         <LogoContainer >
+          
           <img src={LogoImg} alt="Logo"/>
           <h1>PiuPiuwer</h1>
         </LogoContainer>
@@ -46,17 +42,34 @@ const Landing: React.FC = () => {
       </LandingText>
 
       <LoginBox>
-        <input 
-          type="text" 
-          placeholder = "Digite o nome de usuário: "
-          onChange = {(e) => { setUsername(e.target.value)} }  
-        />
-        <input 
-          type = "password" 
-          placeholder = "Digite sua senha: "
-          onChange = {(e) => { setPassword(e.target.value) } }
-        />
-        <button onClick={handleClick}><p>Entrar</p></button>
+        <div>
+          <input 
+            type="text" 
+            placeholder = "Digite o nome de usuário: "
+            onChange = {e => { setCred({...cred, username: e.target.value})} }  
+          />
+          <h4>{usernameError}</h4>
+        </div>
+
+        <div>
+          <input 
+            type = "password" 
+            placeholder = "Digite sua senha: "
+            onChange = {(e) => { setCred({...cred, password: e.target.value}) } }
+          />
+          <h4>{passwordError}</h4>
+        </div>
+
+        <div>
+          <button onClick={handleClick}><p>Entrar</p></button>
+          <h4>{loginError}</h4>
+        </div>
+
+        <h3>Esqueceu sua senha?</h3>
+        <hr/>
+
+        <button>Criar nova conta</button>
+
       </LoginBox>
     
     </MainContainer>

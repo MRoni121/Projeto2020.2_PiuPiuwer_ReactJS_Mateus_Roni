@@ -1,15 +1,18 @@
 import React from 'react';
-import Feed from './pages/Feed';
-import Landing from './pages/landing';
+import Routes from './routes'
 import GlobalStyle from './styles/global';
+import {AuthProvider} from './hooks/useAuth';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   /*apaga essa div e coloca o <Routes/> */
   return (
-    <div className="App">
-      <Landing />
-      <GlobalStyle />
-    </div>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes />
+            <GlobalStyle />
+          </BrowserRouter>
+        </AuthProvider>
   );
 }
 

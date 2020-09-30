@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface BotaoPiarProps {
+  estourado: boolean;
+}
+
 export const FeedContainer = styled.div`
   display: flex;
   height: 100vh;
@@ -97,7 +101,7 @@ export const Perfil = styled.div`
   height: 6.2rem;
   border-radius: 50%;
   border: 1px solid black;
-  margin-right: 1.24rem;
+  margin-left: 1.24rem;
   overflow: hidden;
   }
 `;
@@ -178,7 +182,7 @@ export const BasePartePiar = styled.div`
 
 `;
 
-export const BotaoPiar = styled.div`
+export const BotaoPiar = styled.div<BotaoPiarProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -186,11 +190,39 @@ export const BotaoPiar = styled.div`
 
   p {
     align-self: flex-end;
+    font-size: 15px;
+  }
+
+  > p {
+    color: red;
+    font-weight: bold;
+    margin-left: 30px;
   }
 
   div{
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+
+  div p{
+    color: ${props => 
+      props.estourado ? 'red' : 'black'
+    }
+  }
+
+
+  button p{
+    color: #8CB7C6;
+  }
+
+  button {
+    transition: background-color 0.5s, letter-spacing 0.5s;
+  }
+
+  button:hover {
+    background: var(--color-login-button-hover);
+    letter-spacing: 3px;
   }
 
 `;
